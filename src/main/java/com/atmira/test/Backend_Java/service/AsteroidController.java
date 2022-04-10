@@ -52,7 +52,9 @@ public class AsteroidController {
         return apiResponse;
     }
 
-    private List<Asteroid> generateHazardousAsteroidList(JsonNode nasaApiResponse){
+    //NOTE: Below methods should be private. They are public to simplify the implementation of JUnit tests 
+
+    public List<Asteroid> generateHazardousAsteroidList(JsonNode nasaApiResponse){
         List<Asteroid> asteroidList = new ArrayList<Asteroid>();
 
         for (JsonNode dateNode : nasaApiResponse.path("near_earth_objects")) {
@@ -71,14 +73,14 @@ public class AsteroidController {
         return asteroidList;
     }
    
-    private Double calculateAsteroidDiameter(JsonNode asteroidNode){
+    public Double calculateAsteroidDiameter(JsonNode asteroidNode){
         Double minDiameter = asteroidNode.path("estimated_diameter_min").asDouble();
         Double maxDiameter = asteroidNode.path("estimated_diameter_max").asDouble();
         
         return (minDiameter + maxDiameter) / 2;
     }
 
-    private List<Asteroid> sortAsteroidsByDiamter(List<Asteroid> asteroidList){  
+    public List<Asteroid> sortAsteroidsByDiamter(List<Asteroid> asteroidList){  
         asteroidList.sort((o1, o2)
                       -> o2.getDiameterInKm().compareTo(o1.getDiameterInKm()));
         return asteroidList;
