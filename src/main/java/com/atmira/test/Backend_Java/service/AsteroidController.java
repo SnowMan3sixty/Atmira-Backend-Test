@@ -9,8 +9,6 @@ import java.util.List;
 import com.atmira.test.Backend_Java.model.Asteroid;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,19 +20,19 @@ public class AsteroidController {
     //Use this other api key if the demo is not working
     // private final String API_KEY = "zdUP8ElJv1cehFM0rsZVSQN7uBVxlDnu4diHlLSb";
 
+    public List<Asteroid> getPotentiallyHazardousAsteroidsTop3(int dayLapse){
 
-    @GetMapping("/asteroids")
-    public List<Asteroid> potentiallyHazardousAsteroidsTop(@RequestParam(value="days") int days){        
-
-        JsonNode nasaApiResponse = callNasaApi(days);
+        JsonNode nasaApiResponse = callNasaApi(dayLapse);
         List<Asteroid> hazardousAsteroidList = generateHazardousAsteroidList(nasaApiResponse);
+       
         hazardousAsteroidList = sortAsteroidsByDiamter(hazardousAsteroidList);     
 
         if(hazardousAsteroidList.size() > 3 ){
             hazardousAsteroidList = hazardousAsteroidList.subList(0,3);
         }
+
         return hazardousAsteroidList;
-    } 
+    }
 
     private JsonNode callNasaApi(int daysLapse){
         RestTemplate restTemplate = new RestTemplate();
