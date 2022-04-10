@@ -46,7 +46,7 @@ public class AsteroidController {
         c.setTime(currentDate);
         c.add(Calendar.DATE, daysLapse);
         String dateLapseString = simpleDateFormat.format(c.getTime());
-      
+        
         JsonNode apiResponse = restTemplate.getForObject(String.format(NASA_URL,currentDateString,dateLapseString,API_KEY),JsonNode.class);       
         
         return apiResponse;
